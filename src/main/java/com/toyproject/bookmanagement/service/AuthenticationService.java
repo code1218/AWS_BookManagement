@@ -16,6 +16,7 @@ import com.toyproject.bookmanagement.entity.User;
 import com.toyproject.bookmanagement.exception.CustomException;
 import com.toyproject.bookmanagement.exception.ErrorMap;
 import com.toyproject.bookmanagement.repository.UserRepository;
+import com.toyproject.bookmanagement.security.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,7 @@ public class AuthenticationService implements UserDetailsService {
 	
 	private final UserRepository userRepository;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+	private final JwtTokenProvider jwtTokenProvider;
 	
 	
 	public void checkDuplicatedEmail(String email) {
@@ -51,9 +53,8 @@ public class AuthenticationService implements UserDetailsService {
 				new UsernamePasswordAuthenticationToken(loginReqDto.getEmail(), loginReqDto.getPassword());
 		
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		System.out.println(authentication.getPrincipal());
 		
-		return null;
+		return jwtTokenProvider.generateToken(authentication);
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class AuthenticationService implements UserDetailsService {
 			throw new CustomException("로그인 실패", ErrorMap.builder().put("email", "사용자 정보를 확인하세요").build());
 		}
 		
-		return null;
+		return userEntity.toPrincipal();
 	}
 }
 
