@@ -17,7 +17,7 @@ public class BookController {
 	
 	@GetMapping("/books")
 	public ResponseEntity<?> searchBooks(SearchBookReqDto searchBookReqDto) {
-		
+		System.out.println(searchBookReqDto);
 		return ResponseEntity.ok().body(bookService.searchBooks(searchBookReqDto));
 	}
 	

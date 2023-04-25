@@ -26,6 +26,7 @@ public class BookService {
 		int index = (searchBookReqDto.getPage() - 1) * 20;
 		Map<String, Object> map = new HashMap<>();
 		map.put("index", index);
+		map.put("categoryIds", searchBookReqDto.getCategoryIds());
 		
 		bookRepository.searchBooks(map).forEach(book -> {
 			list.add(book.toDto());
