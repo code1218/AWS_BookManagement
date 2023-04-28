@@ -113,6 +113,10 @@ public class BookService {
 		
 		return bookRepository.returnBook(map);
 	}
+	
+	public int registeBookList(int bookId) {
+		return bookRepository.registeBookList(bookId);
+	}
 }
 
 
